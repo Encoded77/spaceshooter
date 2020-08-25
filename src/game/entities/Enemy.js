@@ -15,7 +15,7 @@ class Enemy extends BaseEntity {
         this.setScale(0.2);
         this.toggleFlipY();
 
-        this.life = 10;
+        this.life = 15;
         this.velocity = Phaser.Math.Between(50, 250);
         this.direction = (Math.random() < 0.5) ? 'right' : 'left';
     };
@@ -34,6 +34,8 @@ class Enemy extends BaseEntity {
         if (x > this.ctx.getWidth()) {
             this.direction = 'left';
         }
+
+        this.cleanup();
     };
 
     moveTowards(actor, velocity = 100) {
@@ -47,7 +49,15 @@ class Enemy extends BaseEntity {
         if (x > dx) {
             this.setVelocityX(-velocity);
         }
+
+        this.cleanup();
     };
+
+    cleanup() {
+        if (this.y > this.ctx.scale.height) {
+            this.destroy();
+        }
+    }
 
     /**
      * 
@@ -66,6 +76,8 @@ class Enemy extends BaseEntity {
 
     die() {
         explosionOnActor(this.ctx, this);
+        const ui = this.ctx.scene.get('UI');
+        ui.updateScore(10);
         this.destroy();
     }
 };

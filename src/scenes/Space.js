@@ -28,6 +28,7 @@ class Space extends BaseScene {
     };
 
     preload() {
+        console.log('Space');
         this.load.on('progress', handleProgress(this));
         loadAssetMap(this, gameAssets);
         loadXMLAtlasMap(this, gameAtlases);
@@ -44,7 +45,6 @@ class Space extends BaseScene {
         // enemies
         this.enemies = this.physics.add.group({
             classType: Enemy,
-            repeat: 10,
         });
         for (let i = 0; i < 10; i++) {
             this.enemies.create(
