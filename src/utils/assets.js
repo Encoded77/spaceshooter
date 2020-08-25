@@ -8,13 +8,27 @@ import boss1 from '../assets/EnemyBoss.png';
 import bullet1 from '../assets/bullet1.png';
 import bullet2 from '../assets/bullet2.png';
 
+import explosionsSpriteSheet from '../assets/spritesheet_pixelExplosion.png'
+import explosionsXMLAtlas from '../assets/spritesheet_pixelExplosion.xml'
+
 // load key => value pair of assets 
-export const loadAssetMap = (ctx, assets) => {
+export const loadAssetMap = (ctx, assets) =>
     Object.entries(assets).map(([key, file]) => ctx.load.image(key, file));
-};
+
 
 export const handleProgress = (ctx) => (val) => {
     console.log(val);
+};
+
+export const loadXMLAtlasMap = (ctx, atlasMap) =>
+    Object.entries(atlasMap).map(([key, data]) => ctx.load.atlasXML(key, data.sheet, data.xml));
+
+
+export const gameAtlases = {
+    explosion: {
+        sheet: explosionsSpriteSheet,
+        xml: explosionsXMLAtlas,
+    },
 };
 
 export const gameAssets = Object.freeze({

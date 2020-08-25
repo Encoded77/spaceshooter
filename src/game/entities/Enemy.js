@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import BaseEntity from './BaseEntity';
 import { flashRed } from '../../utils/tweens';
+import { explosionOnActor } from '../../utils/anims';
 
 class Enemy extends BaseEntity {
     /**
@@ -33,7 +34,7 @@ class Enemy extends BaseEntity {
     }
 
     die() {
-        // TODO: death animation
+        explosionOnActor(this.ctx, this);
         this.destroy();
     }
 };

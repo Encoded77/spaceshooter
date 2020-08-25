@@ -6,6 +6,8 @@ import Bullet from '../game/entities/Bullet';
 import {
     gameAssets,
     loadAssetMap,
+    gameAtlases,
+    loadXMLAtlasMap,
     handleProgress
 } from '../utils/assets';
 import { physicsConfig } from '../utils/constants';
@@ -28,6 +30,7 @@ class Space extends BaseScene {
     preload() {
         this.load.on('progress', handleProgress(this));
         loadAssetMap(this, gameAssets);
+        loadXMLAtlasMap(this, gameAtlases);
     };
 
     create() {
@@ -60,6 +63,9 @@ class Space extends BaseScene {
             enemy.takeDamage(bullet.power);
             bullet.destroy();
         });
+
+        // animations
+        this.anims.create({ key: 'explode', frames: this.anims.generateFrameNames('explosion') });
     };
 
     update() {
