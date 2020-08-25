@@ -46,12 +46,6 @@ class Space extends BaseScene {
         this.enemies = this.physics.add.group({
             classType: Enemy,
         });
-        for (let i = 0; i < 10; i++) {
-            this.enemies.create(
-                Phaser.Math.Between(0, width),
-                Phaser.Math.Between(30, 150)
-            );
-        }
 
         // player
         this.player = new Player(this, width/2, height - 50);
@@ -83,12 +77,26 @@ class Space extends BaseScene {
         this.player.handleCursors(this.cursors);
         this.player.handleFire(this.bullets, this.cursors);
 
+        // enemy spawn
+        if (this.enemies.getLength() < 1) {
+            this.spawnEnemies();
+        }
+
         // enemy movement
         this.enemies.children.each(enemy => enemy.move());
 
         // destroy bullets going past the limit
         bulletCleanup(this, this.bullets);
     };
+
+    spawnEnemies(number = 8) {
+        for (let i = 0; i < number; i++) {
+            this.enemies.create(
+                Phaser.Math.Between(0, this.game.scale.width),
+                Phaser.Math.Between(30, 150)
+            );
+        }
+    }
 };
 
 export default Space;

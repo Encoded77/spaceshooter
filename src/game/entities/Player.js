@@ -76,7 +76,7 @@ class Player extends BaseEntity {
 
     handleHitByEnemy(_, enemy) {
         enemy.die(false);
-        flashRed(this.ctx, this);
+        flashRed(this.ctx, this, 150, 1);
         this.looseLife();
     }
 
