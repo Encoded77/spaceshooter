@@ -12,7 +12,9 @@ export const physicsConfig = Object.freeze({
 export const PLAYER = Object.freeze({
     LIVES: 3,
     SPEED: 300,
-    FIRE_DELAY: 50, // in ms
+    POWER: 5,
+    FIRE_DELAY: 125, // in ms
+    BULLET_VELOCITY: 500,
 });
 
 export const BULLET_VELOCITY = 500;

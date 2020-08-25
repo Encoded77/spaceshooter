@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
+import BaseScene from './BaseScene';
 import { gameOverAssets } from '../utils/assets';
 
-class GameOver extends Phaser.Scene {
+class GameOver extends BaseScene {
     constructor() {
         super('GameOver');
     }

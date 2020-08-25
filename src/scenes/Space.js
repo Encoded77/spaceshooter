@@ -1,15 +1,18 @@
 import Phaser from 'phaser';
+import BaseScene from './BaseScene';
+import Player from '../game/entities/Player';
+import Enemy from '../game/entities/Enemy';
+import Bullet from '../game/entities/Bullet';
 import {
     gameAssets,
     loadAssetMap,
     handleProgress
 } from '../utils/assets';
 import { physicsConfig } from '../utils/constants';
-import { handleMovement } from '../utils/movement';
-import { handleFire, handleEnemyHit, bulletCleanup } from '../utils/combat';
+import { bulletCleanup } from '../utils/cleanup';
 
 
-class Space extends Phaser.Scene {
+class Space extends BaseScene {
     constructor() {
         super({
             key: 'Space',
@@ -36,32 +39,36 @@ class Space extends Phaser.Scene {
         this.bg = this.add.tileSprite(x/2, y/2, x, y, 'space');
 
         // enemies
-        this.enemies = this.physics.add.group();
-        const enemy = this.enemies.create(x/2, 50, 'enemy1').setScale(0.2).setSize(370, 300);
-        enemy.angle = 180;
+        this.enemies = this.physics.add.group({
+            classType: Enemy,
+        });
+        this.enemies.create(x/2, 50);
 
         // player
-        this.player = this.physics.add.image(x/2, y - 50, 'player').setScale(0.2);
-        this.player.body.setSize(280, 280);
-        this.player.body.setCollideWorldBounds(true);
+        this.player = new Player(this, x/2, y - 50);
 
         // keys
         this.cursors = this.input.keyboard.createCursorKeys();
 
         // bullets
-        this.bullets = this.physics.add.group();
+        this.bullets = this.physics.add.group({
+            classType: Bullet,
+        });
 
         // collions
-        this.physics.add.overlap(this.enemies, this.bullets, handleEnemyHit);
+        this.physics.add.overlap(this.enemies, this.bullets, (enemy, bullet) => {
+            // TODO: call enemy.takeDamage
+            bullet.destroy();
+        });
     };
 
     update() {
         // background handling
-        this.bg.tilePositionY -= 4;
+        this.bg.tilePositionY -= 3;
 
         // player actions
-        handleMovement(this.player, this.cursors);
-        handleFire(this.player, this.bullets, this.cursors);
+        this.player.handleCursors(this.cursors);
+        this.player.handleFire(this.bullets, this.cursors);
 
         // destroy bullets going past the limit
         bulletCleanup(this, this.bullets);
