@@ -35,20 +35,26 @@ class Space extends BaseScene {
 
     create() {
         const {
-            width: x,
-            height: y
+            width,
+            height,
         } = this.game.scale.gameSize
         // background
-        this.bg = this.add.tileSprite(x/2, y/2, x, y, 'space');
+        this.bg = this.add.tileSprite(width/2, height/2, width, height, 'space');
 
         // enemies
         this.enemies = this.physics.add.group({
             classType: Enemy,
+            repeat: 10,
         });
-        this.enemies.create(x/2, 50);
+        for (let i = 0; i < 10; i++) {
+            this.enemies.create(
+                Phaser.Math.Between(0, width),
+                Phaser.Math.Between(30, 150)
+            );
+        }
 
         // player
-        this.player = new Player(this, x/2, y - 50);
+        this.player = new Player(this, width/2, height - 50);
 
         // keys
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -75,6 +81,9 @@ class Space extends BaseScene {
         // player actions
         this.player.handleCursors(this.cursors);
         this.player.handleFire(this.bullets, this.cursors);
+
+        // enemy movement
+        this.enemies.children.each(enemy => enemy.move());
 
         // destroy bullets going past the limit
         bulletCleanup(this, this.bullets);

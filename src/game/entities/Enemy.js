@@ -16,6 +16,37 @@ class Enemy extends BaseEntity {
         this.toggleFlipY();
 
         this.life = 10;
+        this.velocity = Phaser.Math.Between(50, 250);
+        this.direction = (Math.random() < 0.5) ? 'right' : 'left';
+    };
+
+    move() {
+        const { x, y, velocity } = this;
+        this.setVelocityY(velocity * 0.5);
+        this.direction === 'right' 
+            ? this.setVelocityX(velocity)
+            : this.setVelocityX(-velocity);
+
+        // bounce off borders
+        if (x < 0) {
+            this.direction = 'right';
+        }
+        if (x > this.ctx.getWidth()) {
+            this.direction = 'left';
+        }
+    };
+
+    moveTowards(actor, velocity = 100) {
+        const { x: dx } = actor;
+        const { x } = this;
+
+        this.setVelocityY(velocity);
+        if (x < dx) {
+            this.setVelocityX(velocity);
+        }
+        if (x > dx) {
+            this.setVelocityX(-velocity);
+        }
     };
 
     /**

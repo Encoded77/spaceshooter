@@ -5,6 +5,14 @@ class BaseScene extends Phaser.Scene {
         super(...args);
     };
 
+    getWidth() {
+        return this.scale.width
+    }
+
+    getHeight() {
+        return this.scale.height
+    }
+
     // TODO: scene shared utils here
 };
 
