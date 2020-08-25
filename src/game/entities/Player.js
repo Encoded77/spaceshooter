@@ -58,10 +58,11 @@ class Player extends BaseEntity {
         if (cursors.space.isDown && this.canFire) {
             this.canFire = false;
             setTimeout(() => this.canFire = true, this.fireDelay);
-            bulletGroup
+            const bullet = bulletGroup
                 .create(this.x, this.y, 'bullet1')
                 .setSize(50, 100)
                 .setVelocityY(-this.bulletVelocity);
+            bullet.power = this.power;
         }
     };
 }

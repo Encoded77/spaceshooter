@@ -57,7 +57,7 @@ class Space extends BaseScene {
 
         // collions
         this.physics.add.overlap(this.enemies, this.bullets, (enemy, bullet) => {
-            // TODO: call enemy.takeDamage
+            enemy.takeDamage(bullet.power);
             bullet.destroy();
         });
     };
