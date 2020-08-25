@@ -69,6 +69,7 @@ class Space extends BaseScene {
             enemy.takeDamage(bullet.power);
             bullet.destroy();
         });
+        this.physics.add.overlap(this.enemies, this.player, this.player.handleHitByEnemy);
 
         // animations
         this.anims.create({ key: 'explode', frames: this.anims.generateFrameNames('explosion') });

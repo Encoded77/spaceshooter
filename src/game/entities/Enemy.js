@@ -74,10 +74,11 @@ class Enemy extends BaseEntity {
         }
     }
 
-    die() {
+    die(withPoints = true) {
         explosionOnActor(this.ctx, this);
-        const ui = this.ctx.scene.get('UI');
-        ui.updateScore(10);
+        if (withPoints) {
+            this.ctx.scene.get('UI').updateScore(10);
+        }
         this.destroy();
     }
 };
